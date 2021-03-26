@@ -1,0 +1,73 @@
+{% extends "layout.html" %}
+{% block body %}
+    {% if session.logged_in %}
+    <!-- insert stuff to be shown on main page when logged in -->
+        <h2>Logged in.</h2>
+        <h3>Welcome, {{ g.user.username }}</h3>
+        {% if error %}
+            <div class="error">Error: {{ error }}</div>
+        {% endif %}
+        {% if g.user.type == 'owner' %}
+            <a href="{{ url_for('new_staff') }}">Create a new staff account</a> 
+            <!-- display current schedule here -->
+            <h4>All Scheduled Events:</h4>
+            <ul class="events">
+                {% for event in events %}
+                    {% if event.staff1 is not none %}
+                        <li>Event Name: {{ event.event_name }}, Date: {{ event.date }} Staff: {{ event.staff1 }}, {{ event.staff2 }}, {{ event.staff3 }}</li>
+                    {% else %}
+                        <li>Event Name: {{ event.event_name }}, Date: {{ event.date }} - No staff currently signed up.</li>
+                    {% endif %}
+                {% else %}
+                    <li>No events scheduled.</li>
+                {% endfor %}
+            </ul>
+        {% elif g.user.type == 'customer' %}
+            <h4>Schedule an Event</h4>
+            <form action="" method="post">
+                <dl>
+                    <dt>Event Name:</dt>
+                        <dd><input type="text" name="event_name" size="30" value="{{ request.form.event_name }}"></dd>
+                    <dt>Date:</dt>
+                        <dd><input type="date" name="date" size="30" value="{{ request.form.date }}"></dd>
+                </dl>
+                <div class="actions"><input type="submit" value="Submit"></div>
+            </form>
+            <h4>Your Scheduled Events:</h4>
+            <ul>
+                {% for event in events %}
+                    {% if event.cust_name == g.user.username %}
+                        <li>Event Name: {{ event.event_name }}, Date: {{ event.date }}</li>
+                        <a href="{{ url_for('cancel_event', event=event.event_name) }}">Cancel this event</a>
+                    {% endif %}
+                {% else %}
+                    <li>No events scheduled.</li>
+                {% endfor %}
+            </ul>
+        {% elif g.user.type == 'staff' %}
+            <h4>Scheduled Work:</h4>
+            <ul>
+                {% for event in events %}
+                    {% if (event.staff1 == g.user.username) or (event.staff2 == g.user.username) or (event.staff3 == g.user.username) %}
+                        <li>Event Name: {{ event.event_name }}, Date: {{ event.date }}</li>
+                    {% endif %}
+                {% else %}
+                    <li>No work scheduled.</li>
+                {% endfor %}
+            </ul>
+            <h4>Available Events to Work:</h4>
+            <ul>
+                {% for event in events %}
+                    {% if (not(event.staff1 is not none) or not(event.staff2 is not none) or not(event.staff3 is not none)) and ((event.staff1 != g.user.username) and (event.staff2 != g.user.username) and (event.staff3 != g.user.username)) %}
+                        <li>Event Name: {{ event.event_name }}, Date: {{ event.date }}</li>
+                        <a href="{{ url_for('work', event=event.event_name) }}">Work this event</a>
+                    {% endif %}
+                {% else %}
+                    <li>No available events to work.</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% else %}
+        <h2>Not logged in.</h2>
+    {% endif %}
+{% endblock %}

@@ -16,29 +16,30 @@ Assignment #:  2
 
 Program due date:  3/25/21
 
-Handed in date:  
+Handed in date:  3/25/21
 
 Source code file name(s):
-
-
-
-
-
+catering.py
+models.py
+home.html
+layout.html
+login.html
+new_staff.html
+register.html
+style.css
 
 
 Other file name(s) (if relevant):
+info_sheet.txt
+requirements.txt
 
 
 
-
-
-
-
-Does your project run without error?:
+Does your project run without error?:  Yes
 
 If not, what is/are the error(s) and which parts of your program run
 correctly?:
-
+N/A
 
 
 
@@ -46,10 +47,5 @@ correctly?:
 
 
 Additional comments to the grader:
-
-
-
-
-
 
 
