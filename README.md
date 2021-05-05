@@ -14,3 +14,6 @@ The app can be run as follows:
 * set the `FLASK_APP` environment variable to `catering.py`
 * initialize the database with `flask initdb`
 * spin up the app with `flask run` 
+
+
+This project was part of CS1520 (Programming Languages for Web Applications) at the University of Pittsburgh.
